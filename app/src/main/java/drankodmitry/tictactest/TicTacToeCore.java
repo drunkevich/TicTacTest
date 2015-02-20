@@ -97,7 +97,7 @@ public class TicTacToeCore {
     }
 
     private Point calculateNextMove(Difficulty diff) {
-        Point p = new Point(-1, -1);
+        Point p;
         switch (diff) {
             case DUMB:
                 p = randomMove();
@@ -105,11 +105,12 @@ public class TicTacToeCore {
             case NORMAL:
                 p = forcedMove();
                 if (p == null) p = randomMove();
-
+                break;
+            default:
+                p = randomMove();
                 break;
         }
 
-        //TODO
         return p;
     }
 
@@ -175,10 +176,6 @@ public class TicTacToeCore {
 
     public Point getWinLineEnd() {
         return winLineEnd;
-    }
-
-    public Mark[][] getMap() {
-        return map;
     }
 
     public enum Difficulty {DUMB, EASY, NORMAL}

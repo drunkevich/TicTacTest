@@ -85,10 +85,6 @@ public class PointsSet {
         return Width;
     }
 
-    public int getHeight() {
-        return Height;
-    }
-
     public int getDiff() {
         return diff;
     }
