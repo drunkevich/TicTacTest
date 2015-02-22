@@ -13,5 +13,12 @@ public class Move {
         status = _status;
     }
 
-    public enum Status {ALREADY_FINISHED, PLAYING, WRONG_MOVE, X_WON, O_WON, DRAW}
+    public enum Status {
+        ALREADY_FINISHED(101), PLAYING(100), WRONG_MOVE(102), X_WON(1), O_WON(-1), DRAW(0);
+        public int n;
+
+        Status(int _n) {
+            n = _n;
+        }
+    }
 }
