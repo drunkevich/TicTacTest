@@ -3,6 +3,10 @@ package drankodmitry.tictactest;
 import android.graphics.Point;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class TicTacToeCore {
@@ -45,6 +49,10 @@ public class TicTacToeCore {
         } else {
             return move(-1, -1);
         }
+    }
+
+    public Mark getCurrentPlayer() {
+        return (map.getMoveNumber() % 2 == 0) ? Mark.X : Mark.O;
     }
 
     private Move.Status evaluateStatus() {
@@ -105,16 +113,13 @@ public class TicTacToeCore {
                 if (p == null) return randomMove();
                 else return p;
             case NORMAL:
-                Point[] moves = map.getFreeCells();
-                //List<Point> moves = new ArrayList<Point>(Arrays.asList(map.getFreeCells()));
-                //Collections.shuffle(moves);
-                Log.d("minimax", "" + "new move        ");
+                if (map.getMoveNumber() == 0) return randomMove();
+                List<Point> moves = new ArrayList<Point>(Arrays.asList(map.getFreeCells()));
+                Collections.shuffle(moves, rand);
                 Point tmp = new Point(-1, -1);
                 for (Point point : moves) {
-                    Log.d("point", "" + point.x + " " + point.y);
-                    int result = minimax(map.set(point.x, point.y), 1);
-                    Log.d("minimax", "" + result);
-                    if (result == -1) {
+                    int result = minimax(map.set(point.x, point.y), (map.getMoveNumber() % 2 == 0) ? Mark.O.n : Mark.X.n);
+                    if ((result == -1) || (map.getMoveNumber() == 1 && result == 0)) {
                         return point;
                     } else {
                         if (result == 0) {
@@ -204,7 +209,14 @@ public class TicTacToeCore {
         return best;
     }
 
-    public enum Difficulty {DUMB, EASY, NORMAL}
+    public enum Difficulty {
+        DUMB(1), EASY(2), NORMAL(3);
+        int n;
+
+        Difficulty(int _n) {
+            n = _n;
+        }
+    }
 
     public enum Mark {
         NONE(0), X(1), O(-1);
